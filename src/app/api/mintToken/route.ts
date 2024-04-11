@@ -5,13 +5,15 @@ const {
     ENGINE_URL,
     ACCESS_TOKEN,
     BACKEND_WALLET_ADDRESS,
+    CHAIN_ID
 } = process.env;
 
 export async function POST(req: Request) {
     if(
         !ENGINE_URL ||
         !ACCESS_TOKEN ||
-        !BACKEND_WALLET_ADDRESS
+        !BACKEND_WALLET_ADDRESS ||
+        !CHAIN_ID
     ) {
         throw new Error("Missing environment variables");
     }
@@ -19,7 +21,7 @@ export async function POST(req: Request) {
     const { address } = await req.json();
 
     const res = await fetch(
-        `${ENGINE_URL}/contract/mumbai/${TOKEN_CONTRACT_ADDRESS}/erc20/claim-to`,
+        `${ENGINE_URL}/contract/${CHAIN_ID}/${TOKEN_CONTRACT_ADDRESS}/erc20/claim-to`,
         {
             method: "POST",
             headers: {
